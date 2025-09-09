@@ -76,7 +76,7 @@ const login = async (req: Request<unknown, never, userData>, res: Response, next
 
         const isPasswordCorrect = await bcrypt.compare(password, users?.password);
 
-        if (!isPasswordCorrect) {
+        if (!isPasswordCorrect || !users) {
             return res.status(401).json({
                 status: 401,
                 message: "Unauthorized"
@@ -87,13 +87,6 @@ const login = async (req: Request<unknown, never, userData>, res: Response, next
             return res.status(400).json({
                 status: 400,
                 message: "Bad Request"
-            });
-        }
-
-        if (!users) {
-            return res.status(401).json({
-                status: 401,
-                message: "Unauthorized"
             });
         }
 
